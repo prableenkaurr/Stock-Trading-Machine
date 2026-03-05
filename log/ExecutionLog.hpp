@@ -1,0 +1,1 @@
+// stores trade history 
