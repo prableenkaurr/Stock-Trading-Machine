@@ -8,9 +8,9 @@
 #include <chrono>
 
 // These are the three types of orders a user can place.
-// A LIMIT order means "buy/sell at this price or better."
-// A MARKET order means "buy/sell right now at whatever price is available."
-// A CANCEL order means "remove one of my existing orders from the book."
+// A Limit order means "buy/sell at this price or better."
+// A Market order means "buy/sell right now at whatever price is available."
+// A Cancel order means "remove one of my existing orders from the book."
 enum class OrderType { Limit, Market, Cancel };
 
 // This just tracks which side of the trade the order is on.
