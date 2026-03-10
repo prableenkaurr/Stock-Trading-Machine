@@ -7,7 +7,6 @@
 
 int main() {
  
-    /*
     MatchingEngine engine;
 
     Order* o1 = new Order(1, OrderType::Limit, OrderSide::Buy, "IREN", 37.43, 50);
@@ -18,8 +17,7 @@ int main() {
 
     engine.displayBook("IREN");
     engine.displayTrades();
-    */
-
+ 
     ConsoleUI ui;
     ui.run();
 
