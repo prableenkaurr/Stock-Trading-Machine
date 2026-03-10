@@ -4,7 +4,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "Trade.hpp"
+#include "../models/Trade.hpp"
 
 class ExecutionLog {
 public:
