@@ -233,7 +233,10 @@ std::vector<Trade> OrderBook::match(Order* incoming) {
 
             // For limit orders, stop if the best available bid is lower
             // than what the seller is willing to accept.
-            if (incoming->type == OrderType::Limit && incoming->price > bestPrice) break;
+            if (incoming->type == OrderType::Limit && incoming->price > bestPrice) {
+                std::cout << "Error: bid is lower than price, please enter a higher price next time.\n";
+                break;
+            }
 
             auto& levelQueue = it->second;
             while (!levelQueue.empty() && incoming->quantity > 0) {
