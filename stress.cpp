@@ -25,7 +25,7 @@ int main() {
     std::uniform_int_distribution<int> qtyDist(1,100);
 
     int nextId = 1;
-    const int NUM_ORDERS = 10000;
+    const int NUM_ORDERS = 100000;
 
     auto start = std::chrono::high_resolution_clock::now();
 
