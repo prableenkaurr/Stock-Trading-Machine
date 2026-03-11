@@ -110,14 +110,17 @@ void ConsoleUI::placeLimitOrder() {
     long price = static_cast<long>(priceInput * 100);
 
     // Create the new order
+    const int orderId = nextOrderId++;
     Order* order = new Order(
-        nextOrderId++,
+        orderId,
         OrderType::Limit,
         side,
         ticker,
         price,
         quantity
     );
+
+    std::cout << "Order placed. ID: " << orderId << "\n";
 
     // Send the order to the appropriate order book
     auto trades = getOrCreateBook(ticker)->addLimitOrder(order);
@@ -161,14 +164,17 @@ void ConsoleUI::placeMarketOrder() {
         side = OrderSide::Sell;
 
     // Market orders do not use a price, so we pass 0
+    const int orderId = nextOrderId++;
     Order* order = new Order(
-        nextOrderId++,
+        orderId,
         OrderType::Market,
         side,
         ticker,
         0,
         quantity
     );
+
+    std::cout << "Order placed. ID: " << orderId << "\n";
 
     // Send the market order to the order book
     auto trades = getOrCreateBook(ticker)->addMarketOrder(order);
