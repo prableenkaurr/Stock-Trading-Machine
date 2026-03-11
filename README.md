@@ -8,9 +8,4 @@ Run using:
 
 
 CURRENT STUFF TO DO:
-- Display Order Book
-  sayss no price or bid quantity
 
-- when place order give an ID
-
-- 
