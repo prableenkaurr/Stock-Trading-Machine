@@ -34,6 +34,15 @@ public:
     // Returns true if a book exists for ticker and fills snapshot.
     bool getBookSnapshot(const std::string& ticker, OrderBook::BookSnapshot& out, int levels = 5) const;
 
+    struct TickerStats {
+        std::string ticker;
+        int bids;
+        int asks;
+    };
+
+    // Returns bid/ask counts for every ticker that has an order book.
+    std::vector<TickerStats> getStats() const;
+
 private:
     //All order books indexed by ticker
     std::unordered_map<std::string, OrderBook*> books_;

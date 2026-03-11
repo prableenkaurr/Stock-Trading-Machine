@@ -55,6 +55,28 @@ async function refreshTrades() {
   }
 }
 
+async function refreshStats() {
+  const out = $("statsView");
+  try {
+    const data = await api("/api/stats");
+    const tickers = data.tickers || [];
+    if (tickers.length === 0) {
+      out.textContent = "(no active order books)\n";
+      return;
+    }
+    const rows = tickers
+      .sort((a, b) => a.ticker.localeCompare(b.ticker))
+      .map((t) => `${t.ticker.padEnd(8)} Bids: ${String(t.bids).padStart(5)}  Asks: ${String(t.asks).padStart(5)}`)
+      .join("\n");
+    out.textContent =
+      rows +
+      `\n${"─".repeat(32)}\n` +
+      `${"TOTAL".padEnd(8)} Bids: ${String(data.totalBids).padStart(5)}  Asks: ${String(data.totalAsks).padStart(5)}\n`;
+  } catch (e) {
+    out.textContent = `Error: ${e.message}\n`;
+  }
+}
+
 async function refreshBook() {
   const out = $("bookView");
   const ticker = $("bookTicker").value.trim();
@@ -135,6 +157,7 @@ function wireForms() {
 
   $("refreshBook").addEventListener("click", refreshBook);
   $("refreshTrades").addEventListener("click", refreshTrades);
+  $("refreshStats").addEventListener("click", refreshStats);
 }
 
 async function init() {
@@ -146,13 +169,14 @@ async function init() {
     setStatus(false, `Backend unavailable: ${e.message}`);
   }
   await refreshTrades();
+  await refreshStats();
 
   let timer = null;
   const auto = $("autoTrades");
   function updateTimer() {
     if (timer) clearInterval(timer);
     timer = null;
-    if (auto.checked) timer = setInterval(refreshTrades, 1500);
+    if (auto.checked) timer = setInterval(() => { refreshTrades(); refreshStats(); }, 1500);
   }
   auto.addEventListener("change", updateTimer);
   updateTimer();

@@ -225,6 +225,21 @@ void WebServer::registerRoutes() {
         res.set_content(bookSnapshotToJson(snap).dump(), "application/json");
     });
 
+    // Admin stats: bid/ask counts per ticker and totals
+    impl_->svr.Get("/api/stats", [this](const httplib::Request&, httplib::Response& res) {
+        json tickers = json::array();
+        int totalBids = 0, totalAsks = 0;
+        {
+            std::lock_guard<std::mutex> lk(mu_);
+            for (const auto& s : engine_.getStats()) {
+                tickers.push_back({{"ticker", s.ticker}, {"bids", s.bids}, {"asks", s.asks}});
+                totalBids += s.bids;
+                totalAsks += s.asks;
+            }
+        }
+        res.set_content(json{{"tickers", tickers}, {"totalBids", totalBids}, {"totalAsks", totalAsks}}.dump(), "application/json");
+    });
+
     // All trades
     impl_->svr.Get("/api/trades", [this](const httplib::Request&, httplib::Response& res) {
         json arr = json::array();

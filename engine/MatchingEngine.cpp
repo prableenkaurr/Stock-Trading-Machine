@@ -87,3 +87,11 @@ bool MatchingEngine::getBookSnapshot(const std::string& ticker, OrderBook::BookS
     out = it->second->snapshot(levels);
     return true;
 }
+
+std::vector<MatchingEngine::TickerStats> MatchingEngine::getStats() const {
+    std::vector<TickerStats> stats;
+    for (const auto& [ticker, book] : books_) {
+        stats.push_back({ticker, book->bidCount(), book->askCount()});
+    }
+    return stats;
+}
