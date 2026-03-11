@@ -12,7 +12,7 @@ void ExecutionLog::recordTrade(const Trade& trade) {
 
 void ExecutionLog::recordTrades(const std::vector<Trade>& trades) {
     for (const auto& t : trades) {
-        trades_.push_back(t);
+        recordTrade(t);
     }
 }
 
