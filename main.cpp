@@ -3,14 +3,15 @@
 //AUTHOR: Jaden Palomino
 
 #include "engine/MatchingEngine.hpp"
-#include "ui/ConsoleUI.hpp"
+#include "web/WebServer.hpp"
 
 int main() {
  
     MatchingEngine engine;
  
-    ConsoleUI ui;
-    ui.run();
+    web::WebServer server(engine, "web_ui");
+    // Blocking: open the printed URL in your browser.
+    server.listen("127.0.0.1", 8080);
 
     return 0;
 

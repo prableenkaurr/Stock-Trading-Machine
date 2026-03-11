@@ -19,6 +19,18 @@
 
 class OrderBook {
 public:
+    struct PriceLevel {
+        long priceCents;
+        int quantity;
+    };
+
+    struct BookSnapshot {
+        std::string ticker;
+        std::vector<PriceLevel> asks;  // best ask first (lowest price)
+        std::vector<PriceLevel> bids;  // best bid first (highest price)
+        long spreadCents;              // -1 if unavailable
+    };
+
 
     // Sets up a new empty order book for the given stock ticker.
     explicit OrderBook(const std::string& ticker);
@@ -67,6 +79,9 @@ public:
     // Prints a view of the top N price levels on each side of the book,
     // along with the current spread.
     void display(int levels = 5) const;
+
+    // Returns a non-printing snapshot of the top N price levels.
+    BookSnapshot snapshot(int levels = 5) const;
 
 private:
 

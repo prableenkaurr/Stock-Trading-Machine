@@ -80,3 +80,10 @@ void MatchingEngine::displayBook(const std::string& ticker, int levels) const {
 void MatchingEngine::displayTrades() const {
     log_.display();
 }
+
+bool MatchingEngine::getBookSnapshot(const std::string& ticker, OrderBook::BookSnapshot& out, int levels) const {
+    auto it = books_.find(ticker);
+    if (it == books_.end()) return false;
+    out = it->second->snapshot(levels);
+    return true;
+}

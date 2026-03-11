@@ -27,6 +27,13 @@ public:
     //Show all executed trades
     void displayTrades() const;
 
+    // Non-printing accessors for programmatic UIs.
+    const std::vector<Trade>& trades() const { return log_.trades(); }
+    int tradeCount() const { return log_.size(); }
+
+    // Returns true if a book exists for ticker and fills snapshot.
+    bool getBookSnapshot(const std::string& ticker, OrderBook::BookSnapshot& out, int levels = 5) const;
+
 private:
     //All order books indexed by ticker
     std::unordered_map<std::string, OrderBook*> books_;

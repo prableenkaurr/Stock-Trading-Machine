@@ -168,6 +168,38 @@ void OrderBook::display(int levels) const {
     std::cout << std::setw(12) << "Bid quantity" << "  " << std::setw(10) << "Price" << "\n";
 }
 
+OrderBook::BookSnapshot OrderBook::snapshot(int levels) const {
+    BookSnapshot snap;
+    snap.ticker = ticker_;
+    snap.spreadCents = getSpread();
+
+    // asks_ is sorted ascending by price (best ask first)
+    for (auto& [price, q] : asks_) {
+        if ((int)snap.asks.size() >= levels) break;
+        int total = 0;
+        std::queue<Order*> tmp = q;
+        while (!tmp.empty()) {
+            Order* o = tmp.front(); tmp.pop();
+            if (!o->cancelled) total += o->quantity;
+        }
+        if (total > 0) snap.asks.push_back({price, total});
+    }
+
+    // bids_ is sorted descending by price (best bid first)
+    for (auto& [price, q] : bids_) {
+        if ((int)snap.bids.size() >= levels) break;
+        int total = 0;
+        std::queue<Order*> tmp = q;
+        while (!tmp.empty()) {
+            Order* o = tmp.front(); tmp.pop();
+            if (!o->cancelled) total += o->quantity;
+        }
+        if (total > 0) snap.bids.push_back({price, total});
+    }
+
+    return snap;
+}
+
 // This is where the actual matching happens. We look at which side the
 // incoming order is on and walk through the opposite side of the book.
 // For each resting order we find, we calculate how many shares can be

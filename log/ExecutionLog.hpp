@@ -21,6 +21,9 @@ public:
     //Total number of trades executed
     int size() const;
 
+    // Read-only access to all recorded trades (in-memory only).
+    const std::vector<Trade>& trades() const { return trades_; }
+
 private:
     //Stores all executed trades
     std::vector<Trade> trades_;
