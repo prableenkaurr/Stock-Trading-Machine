@@ -84,7 +84,7 @@ void ConsoleUI::placeLimitOrder() {
 
     std::string ticker;
     std::string sideInput;
-    double priceInput;
+    long price;
     int quantity;
 
     std::cout << "Ticker: ";
@@ -93,8 +93,8 @@ void ConsoleUI::placeLimitOrder() {
     std::cout << "Side (buy/sell): ";
     std::cin >> sideInput;
 
-    std::cout << "Price: ";
-    std::cin >> priceInput;
+    std::cout << "Price (in cents, e.g. 400 = $4.00): ";
+    std::cin >> price;
 
     std::cout << "Quantity: ";
     std::cin >> quantity;
@@ -106,9 +106,6 @@ void ConsoleUI::placeLimitOrder() {
         side = OrderSide::Buy;
     else
         side = OrderSide::Sell;
-
-    // Convert price from dollars to cents (long integer)
-    long price = static_cast<long>(priceInput * 100);
 
     // Create the new order
     const int orderId = nextOrderId++;

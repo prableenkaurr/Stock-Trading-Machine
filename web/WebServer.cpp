@@ -119,13 +119,12 @@ void WebServer::registerRoutes() {
                 res.set_content(json{{"error", "price is required for limit orders"}}.dump(), "application/json");
                 return;
             }
-            const double price = body.value("price", 0.0);
-            if (price <= 0) {
+            priceCents = body.value("price", 0L);
+            if (priceCents <= 0) {
                 res.status = 400;
                 res.set_content(json{{"error", "price must be > 0"}}.dump(), "application/json");
                 return;
             }
-            priceCents = static_cast<long>(price * 100.0 + 0.5);
         }
 
         const std::string ticker = toUpper(tickerRaw);

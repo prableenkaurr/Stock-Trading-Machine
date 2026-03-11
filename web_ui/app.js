@@ -120,7 +120,7 @@ function wireForms() {
       quantity: Number(fd.get("quantity") || 0),
     };
     const price = fd.get("price");
-    if (payload.type === "limit") payload.price = Number(price || 0);
+    if (payload.type === "limit") payload.price = parseInt(price || "0", 10);
 
     const out = $("placeResult");
     out.textContent = "Submitting…";
