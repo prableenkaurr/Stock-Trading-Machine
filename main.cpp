@@ -8,12 +8,6 @@
 int main() {
  
     MatchingEngine engine;
-
-    engine.processOrder(o1);
-    engine.processOrder(o2);
-
-    engine.displayBook("IREN");
-    engine.displayTrades();
  
     ConsoleUI ui;
     ui.run();
