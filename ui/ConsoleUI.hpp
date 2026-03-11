@@ -14,6 +14,7 @@
 #include <map>
 #include <string>
 #include "../orderbook/OrderBook.hpp"
+#include "../log/ExecutionLog.hpp"
 
 class ConsoleUI {
 
@@ -40,6 +41,9 @@ private:
     // order IDs for each new order placed through the UI.
     int nextOrderId;
 
+    //Adds the Execution Log to the UI
+    ExecutionLog log;
+
     // Returns the OrderBook for the given ticker. If the book
     // does not exist yet, it creates a new one automatically.
     OrderBook* getOrCreateBook(const std::string& ticker);
@@ -58,4 +62,6 @@ private:
 
     // Displays the current state of the order book for a specific ticker.
     void displayBook();
+
+    
 };

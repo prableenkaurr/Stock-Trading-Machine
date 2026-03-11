@@ -72,6 +72,7 @@ void ConsoleUI::run() {
             default:
                 std::cout << "Invalid option\n";
         }
+        log.display();
     }
 }
 
@@ -124,6 +125,9 @@ void ConsoleUI::placeLimitOrder() {
 
     // Send the order to the appropriate order book
     auto trades = getOrCreateBook(ticker)->addLimitOrder(order);
+
+    //logs the trade
+    log.recordTrades(trades);
 
     // Print any trades generated during matching
     for (const auto& trade : trades) {
@@ -179,6 +183,9 @@ void ConsoleUI::placeMarketOrder() {
     // Send the market order to the order book
     auto trades = getOrCreateBook(ticker)->addMarketOrder(order);
 
+    //logs the trades
+    log.recordTrades(trades);
+    
     // Display any trades that occurred
     for (const auto& trade : trades) {
 
