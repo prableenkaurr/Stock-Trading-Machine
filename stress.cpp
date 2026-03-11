@@ -5,11 +5,11 @@
 //any price between 140 and 160, and any quantity 
 //between 1 to 100. It then prints the orders processed
 //the trades executed, and the time taken. 
-//run with: g++ stressTest.cpp orderbook/OrderBook.cpp log/ExecutionLog.cpp engine/MatchingEngine.cpp -o stress
+//run with: g++ -std=c++17 stress.cpp orderbook/OrderBook.cpp log/ExecutionLog.cpp engine/MatchingEngine.cpp -o stress
 // and ./stress
 
-#include "../orderbook/OrderBook.hpp"
-#include "../log/ExecutionLog.hpp"
+#include "orderbook/OrderBook.hpp"
+#include "log/ExecutionLog.hpp"
 #include <iostream>
 #include <random>
 #include <chrono>

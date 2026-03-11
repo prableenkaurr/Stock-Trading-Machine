@@ -35,7 +35,7 @@ public:
     // Sets up a new empty order book for the given stock ticker.
     explicit OrderBook(const std::string& ticker);
 
-    // Cleans up all orders still sitting on the book when the program ends.
+    // Destructor that cleans up all orders still sitting on the book when the program ends.
     ~OrderBook();
 
     // Takes a limit order and tries to match it against the opposite side.
@@ -46,7 +46,7 @@ public:
 
     // Takes a market order and fills it immediately at the best available
     // price. If there are not enough orders to fill it completely,
-    // the leftover quantity is discarded. Market orders never sit on the book.
+    // the leftover quantity is thrown away. Market orders never sit on the book.
     std::vector<Trade> addMarketOrder(Order* order);
 
     // Looks up an order by its ID and marks it as cancelled. Returns true
@@ -78,14 +78,14 @@ public:
 
     // Prints a view of the top N price levels on each side of the book,
     // along with the current spread.
-    void display(int levels = 5) const;
+    void display(int levels = 10) const;
 
     // Returns a non-printing snapshot of the top N price levels.
     BookSnapshot snapshot(int levels = 5) const;
 
 private:
 
-    // The stock ticker this book belongs to, e.g. "AAPL".
+    // The stock ticker this book belongs to, e.g. "AVGO".
     std::string ticker_;
 
     // All the resting buy orders, sorted from highest price to lowest.
@@ -111,7 +111,7 @@ private:
 
     // Internal helper that does the actual matching logic. It goes through
     // the opposite side of the book and fills the incoming order as much
-    // as possible, and returns a list of trades that were generated.
+    // as possible, and returns a list of trades that were created.
     std::vector<Trade> match(Order* incoming);
 
 
