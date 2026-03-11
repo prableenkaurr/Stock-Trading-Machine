@@ -1,5 +1,13 @@
+// File: app.js
+// Author: Margarita Schemel
+// This script powers the browser-based UI for the Stock Trading Machine.
+// It calls the C++ HTTP API to place and cancel orders, fetch the current
+// order book, show aggregate order counts per ticker, and stream trades.
+
 const $ = (id) => document.getElementById(id);
 
+// Updates the small status pill in the header to show whether the
+// frontend is currently connected to the backend.
 function setStatus(ok, text) {
   const el = $("status");
   el.textContent = text;
@@ -7,6 +15,8 @@ function setStatus(ok, text) {
   el.classList.add(ok ? "ok" : "bad");
 }
 
+// Thin wrapper around fetch() that always returns parsed JSON and throws
+// on non-2xx responses with a friendly error message.
 async function api(path, opts = {}) {
   const res = await fetch(path, {
     headers: { "Content-Type": "application/json" },
@@ -26,6 +36,8 @@ async function api(path, opts = {}) {
   return json;
 }
 
+// Renders an array of {price, qty} levels as aligned text rows for the
+// monospaced order book view.
 function fmtLevels(levels) {
   if (!levels || levels.length === 0) return "(empty)\n";
   return levels
@@ -33,6 +45,8 @@ function fmtLevels(levels) {
     .join("\n");
 }
 
+// Queries the backend for all trades recorded so far and prints them in
+// a compact, log-style format inside the Trades view.
 async function refreshTrades() {
   const out = $("tradesView");
   try {
@@ -55,6 +69,8 @@ async function refreshTrades() {
   }
 }
 
+// Fetches aggregate bid/ask counts per ticker so the UI can show how
+// many resting orders exist across all order books.
 async function refreshStats() {
   const out = $("statsView");
   try {
@@ -77,6 +93,8 @@ async function refreshStats() {
   }
 }
 
+// Fetches a snapshot of the top N price levels for the requested ticker
+// so we can render the current state of that order book.
 async function refreshBook() {
   const out = $("bookView");
   const ticker = $("bookTicker").value.trim();
@@ -100,6 +118,8 @@ async function refreshBook() {
   }
 }
 
+// Wires up form submissions and button clicks to the HTTP API. All DOM
+// reads/writes live here so the rest of the code can stay logic-focused.
 function wireForms() {
   const typeSel = $("orderType");
   const priceRow = $("priceRow");
@@ -160,6 +180,9 @@ function wireForms() {
   $("refreshStats").addEventListener("click", refreshStats);
 }
 
+// Entry point called once on page load. It wires the UI, checks the
+// health endpoint, performs an initial data load and starts the timer
+// that keeps trades and stats fresh.
 async function init() {
   wireForms();
   try {

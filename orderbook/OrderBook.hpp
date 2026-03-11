@@ -19,11 +19,16 @@
 
 class OrderBook {
 public:
+    // Represents a single aggregated price level in the book with the
+    // total visible quantity at that price. Used by snapshot() so that
+    // UIs do not need to know about the internal queue structure.
     struct PriceLevel {
         long priceCents;
         int quantity;
     };
 
+    // Lightweight, non-printing view of the current book for one ticker.
+    // This is returned by snapshot() and is safe to serialize to JSON.
     struct BookSnapshot {
         std::string ticker;
         std::vector<PriceLevel> asks;  // best ask first (lowest price)
@@ -80,7 +85,9 @@ public:
     // along with the current spread.
     void display(int levels = 10) const;
 
-    // Returns a non-printing snapshot of the top N price levels.
+    // Returns a non-printing snapshot of the top N price levels on each
+    // side of the book. Cancelled orders are ignored when aggregating
+    // quantities so the snapshot only includes live resting orders.
     BookSnapshot snapshot(int levels = 5) const;
 
 private:

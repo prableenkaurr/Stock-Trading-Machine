@@ -27,13 +27,17 @@ public:
     //Show all executed trades
     void displayTrades() const;
 
-    // Non-printing accessors for programmatic UIs.
+    // Non-printing accessors for programmatic UIs that want to inspect
+    // the execution history without scraping the console.
     const std::vector<Trade>& trades() const { return log_.trades(); }
     int tradeCount() const { return log_.size(); }
 
-    // Returns true if a book exists for ticker and fills snapshot.
+    // Returns true if a book exists for the given ticker and fills the
+    // provided snapshot with the top N levels on each side.
     bool getBookSnapshot(const std::string& ticker, OrderBook::BookSnapshot& out, int levels = 5) const;
 
+    // Small summary type used by getStats() to report how many bids
+    // and asks are currently resting on each order book.
     struct TickerStats {
         std::string ticker;
         int bids;
@@ -41,6 +45,8 @@ public:
     };
 
     // Returns bid/ask counts for every ticker that has an order book.
+    // This is primarily used by the web UI to show a quick overview of
+    // activity across all tickers.
     std::vector<TickerStats> getStats() const;
 
 private:

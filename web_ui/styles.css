@@ -1,3 +1,10 @@
+/* 
+  File: styles.css
+  Author: Margarita Schemel
+  Basic layout and theming for the web UI. The goal is to keep things
+  clean and readable without pulling in any external CSS frameworks.
+*/
+
 :root {
   --bg: #0b1020;
   --card: #101a33;

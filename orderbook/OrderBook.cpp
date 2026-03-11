@@ -168,6 +168,9 @@ void OrderBook::display(int levels) const {
     std::cout << std::setw(12) << "Bid quantity" << "  " << std::setw(10) << "Price" << "\n";
 }
 
+// Builds a compact snapshot of the top N price levels on each side of
+// the book. This is used by the web UI so it can display the order book
+// without depending on console output formatting.
 OrderBook::BookSnapshot OrderBook::snapshot(int levels) const {
     BookSnapshot snap;
     snap.ticker = ticker_;
