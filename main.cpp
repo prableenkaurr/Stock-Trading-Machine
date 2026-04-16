@@ -8,14 +8,19 @@
 
 #include "engine/MatchingEngine.hpp"
 #include "web/WebServer.hpp"
+#include <cstdlib>
+#include <string>
 
 int main() {
- 
+
     MatchingEngine engine;
- 
+
+    const char* portEnv = std::getenv("PORT");
+    int port = portEnv ? std::stoi(portEnv) : 8080;
+
     web::WebServer server(engine, "web_ui");
     // Blocking: open the printed URL in your browser.
-    server.listen("127.0.0.1", 8080);
+    server.listen("0.0.0.0", port);
 
     return 0;
 
